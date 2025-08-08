@@ -8,6 +8,7 @@ namespace ScheduleMeetingSystem.Infrastructure.Persistence.Repositories
     {
         public UserRepository(ScheduleMeetingSystemDbContext context) : base(context)
         {
+            
         }
     }
 }

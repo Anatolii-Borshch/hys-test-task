@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleMeetingSystem.Infra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleMeetingSystem.Api", "ScheduleMeetingSystem.Api\ScheduleMeetingSystem.Api.csproj", "{7CB38E32-68A0-4F7C-A87B-AF021736A63E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleMeetingSystem.ApplicationTests", "ScheduleMeetingSystem.ApplicationTests\ScheduleMeetingSystem.ApplicationTests.csproj", "{8204A948-BD15-4831-9A18-BBA72E1AD175}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{7CB38E32-68A0-4F7C-A87B-AF021736A63E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CB38E32-68A0-4F7C-A87B-AF021736A63E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CB38E32-68A0-4F7C-A87B-AF021736A63E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8204A948-BD15-4831-9A18-BBA72E1AD175}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8204A948-BD15-4831-9A18-BBA72E1AD175}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8204A948-BD15-4831-9A18-BBA72E1AD175}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8204A948-BD15-4831-9A18-BBA72E1AD175}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

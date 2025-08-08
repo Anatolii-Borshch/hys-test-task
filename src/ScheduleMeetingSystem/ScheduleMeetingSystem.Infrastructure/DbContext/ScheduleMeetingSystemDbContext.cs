@@ -13,6 +13,14 @@ namespace ScheduleMeetingSystem.Infrastructure.DbContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<User>()
+                .Property(x => x.Id)
+                .ValueGeneratedOnAdd();
+            
+            modelBuilder.Entity<Meeting>()
+                .Property(x => x.Id)
+                .ValueGeneratedOnAdd();
             
             modelBuilder.Entity<User>()
                 .HasMany(x => x.Meetings)
