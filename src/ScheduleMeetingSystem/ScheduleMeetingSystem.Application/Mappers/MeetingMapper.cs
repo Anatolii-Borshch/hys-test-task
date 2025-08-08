@@ -9,8 +9,7 @@ namespace ScheduleMeetingSystem.Application.Mappers
         {
             return new MeetingDto()
             {
-                Title = meeting.Title,
-                DurationMinutes = (meeting.EndTime.Second - meeting.StartTime.Second) / 60,
+                DurationMinutes = (meeting.EndTime.TimeOfDay - meeting.StartTime.TimeOfDay).Minutes,
                 LatestEnd = meeting.EndTime,
                 EarliestStart= meeting.StartTime,
                 ParticipantIds = meeting.Users.Select(u => u.Id).ToList(),

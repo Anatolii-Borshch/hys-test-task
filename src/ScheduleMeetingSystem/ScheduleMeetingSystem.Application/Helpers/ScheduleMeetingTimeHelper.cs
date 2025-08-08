@@ -5,60 +5,50 @@ namespace ScheduleMeetingSystem.Application.Helpers
 {
     public static class ScheduleMeetingTimeHelper
     {
-        public static IEnumerable<Meeting> FitByEarliestDateTime(this IEnumerable<Meeting> meetings, TimeZoneInfo timeZone, DateTime now )
+        public static Meeting? FindEarliestMeeting(IEnumerable<Meeting> meetings, int durationMinutes, DateTime earliestStart, DateTime latestEnd)
         {
-            var normalized = meetings
-                .Select(x => new Meeting
+            var sortedMeetings = meetings.Where(x => x.StartTime >= earliestStart && x.EndTime <= latestEnd)
+                .Where(x =>
                 {
-                    Id = x.Id,
-                    StartTime = TimeZoneInfo.ConvertTimeToUtc(x.StartTime, timeZone),
-                    EndTime = TimeZoneInfo.ConvertTimeToUtc(x.EndTime, timeZone),
+                    var duration = x.EndTime - x.StartTime;
+                    return duration.Minutes >= durationMinutes;
                 })
-                .OrderBy(x => x.StartTime)
+                .OrderBy(x => x.StartTime);
+            
+            return sortedMeetings.FirstOrDefault();
+        }
+        
+        public static TimeSlot? FindEarliestFreeSlot(IEnumerable<Meeting> meetings, int durationMinutes, DateTime earliestStart, DateTime latestEnd)
+        {
+            var busyIntervals = meetings
+                .Select(m => (Start: m.StartTime, End: m.EndTime))
+                .OrderBy(i => i.Start)
                 .ToList();
 
-            var merged = FilteredByTimeGap(normalized).ToList();
+            DateTime current = earliestStart;
 
-            var closestDate = GetClosestDate(merged, now);
-
-            if (closestDate.HasValue)
-                return merged.Where(x => x.StartTime >= closestDate.Value);
-
-            return merged;
-        }
-
-        private static DateTime? GetClosestDate(IEnumerable<Meeting> meetings, DateTime nowUtc)
-        {
-            foreach (var meeting in meetings)
+            foreach (var interval in busyIntervals)
             {
-                if (nowUtc < meeting.StartTime)
-                    return meeting.StartTime;
-
-                if (nowUtc >= meeting.StartTime && nowUtc < meeting.EndTime)
-                    return meeting.EndTime;
-            }
-            return nowUtc;
-        }
-
-        private static IEnumerable<Meeting> FilteredByTimeGap(IEnumerable<Meeting> meetings)
-        {
-            Meeting current = meetings.First();
-            foreach (var next in meetings.Skip(1))
-            {
-                if (next.StartTime <= current.EndTime)
+                if (interval.Start > current)
                 {
-                    if (next.EndTime > current.EndTime)
+                    if ((interval.Start - current).TotalMinutes >= durationMinutes)
                     {
-                        current.EndTime = next.EndTime;
+                        return new TimeSlot(current, current.AddMinutes(durationMinutes));
                     }
                 }
-                else
+
+                if (interval.End > current)
                 {
-                    yield return current;
-                    current = next;
+                    current = interval.End;
                 }
             }
-            yield return current;
+
+            if ((latestEnd - current).TotalMinutes >= durationMinutes)
+            {
+                return new TimeSlot(current, current.AddMinutes(durationMinutes));
+            }
+
+            return null;
         }
     }
 }

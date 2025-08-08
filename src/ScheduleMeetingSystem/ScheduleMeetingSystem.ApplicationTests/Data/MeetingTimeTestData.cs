@@ -2,54 +2,31 @@
 
 namespace ScheduleMeetingSystem.ApplicationTests.Data
 {
+
     public static class MeetingTimeTestData
     {
-        public static IEnumerable<object[]> GetMeetingTimeTestData()
+        public static IEnumerable<object[]> GetEarliestMeetingTestCases()
         {
-            var meetings = new List<Meeting>
+            yield return new object[] { "2025-08-08T09:00:00", "2025-08-08T15:00:00", 60, "2025-08-08T10:00:00" };
+            yield return new object[] { "2025-08-08T09:00:00", "2025-08-08T15:00:00", 90, null };
+            yield return new object[] { "2025-08-08T11:00:00", "2025-08-08T15:00:00", 30, "2025-08-08T12:00:00" };
+        }
+
+        public static List<Meeting> GetTestMeetings()
+        {
+            return new List<Meeting>
             {
-                new Meeting
+                new Meeting()
                 {
-                    StartTime = new DateTime(2025, 6, 20, 9, 0, 0, DateTimeKind.Utc),
-                    EndTime   = new DateTime(2025, 6, 20, 10, 0, 0, DateTimeKind.Utc)
+                    StartTime = DateTime.Parse("2025-08-08T10:00:00"), 
+                    EndTime = DateTime.Parse("2025-08-08T11:00:00")
                 },
-                new Meeting
+                new Meeting()
                 {
-                    StartTime = new DateTime(2025, 6, 20, 11, 0, 0, DateTimeKind.Utc),
-                    EndTime   = new DateTime(2025, 6, 20, 12, 0, 0, DateTimeKind.Utc)
-                }
+                    StartTime = DateTime.Parse("2025-08-08T12:00:00"), 
+                    EndTime = DateTime.Parse("2025-08-08T14:00:00")
+                },
             };
-
-            yield return
-            [
-                meetings,
-                new DateTime(2025, 6, 20, 8, 0, 0, DateTimeKind.Utc),
-                new[]
-                {
-                    new DateTime(2025, 6, 20, 9, 0, 0, DateTimeKind.Utc),
-                    new DateTime(2025, 6, 20, 11, 0, 0, DateTimeKind.Utc)
-                }
-            ];
-
-            yield return
-            [
-                meetings,
-                new DateTime(2025, 6, 20, 9, 30, 0, DateTimeKind.Utc),
-                new[]
-                {
-                    new DateTime(2025, 6, 20, 11, 0, 0, DateTimeKind.Utc)
-                }
-            ];
-
-            yield return
-            [
-                meetings,
-                new DateTime(2025, 6, 20, 10, 30, 0, DateTimeKind.Utc),
-                new[]
-                {
-                    new DateTime(2025, 6, 20, 11, 0, 0, DateTimeKind.Utc)
-                }
-            ];
         }
     }
 }

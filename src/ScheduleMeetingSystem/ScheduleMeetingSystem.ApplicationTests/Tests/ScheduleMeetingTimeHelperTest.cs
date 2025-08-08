@@ -8,15 +8,24 @@ namespace ScheduleMeetingSystem.ApplicationTests.Tests;
 public class ScheduleMeetingTimeHelperTest
 {
     [Theory]
-    [MemberData(nameof(MeetingTimeTestData.GetMeetingTimeTestData), MemberType = typeof(ScheduleMeetingSystem.ApplicationTests.Data.MeetingTimeTestData))]
-    public void FitByEarliestDateTimeTest(IEnumerable<Meeting> meetings, DateTime nowUtc, DateTime[] expectedStarts)
+    [MemberData(nameof(MeetingTimeTestData.GetEarliestMeetingTestCases), MemberType = typeof(ScheduleMeetingSystem.ApplicationTests.Data.MeetingTimeTestData))]
+    public void FindEarliestMeeting_Test(string earliestStartStr, string latestEndStr, int durationMinutes, string expectedStartStr)
     {
-        var zone = TimeZoneInfo.Utc;
+        var meetings = MeetingTimeTestData.GetTestMeetings();
 
-        var result = meetings.FitByEarliestDateTime(zone, nowUtc)
-            .Select(x => x.StartTime)
-            .ToArray();
+        var earliestStart = DateTime.Parse(earliestStartStr);
+        var latestEnd = DateTime.Parse(latestEndStr);
 
-        Assert.Equal(expectedStarts, result);
+        var result = ScheduleMeetingTimeHelper.FindEarliestMeeting(meetings, durationMinutes, earliestStart, latestEnd);
+
+        if (expectedStartStr == null)
+        {
+            Assert.Null(result);
+        }
+        else
+        {
+            Assert.NotNull(result);
+            Assert.Equal(DateTime.Parse(expectedStartStr), result!.StartTime);
+        }
     }
 }

@@ -31,20 +31,69 @@ namespace ScheduleMeetingSystem.Application.Implementations.Services
             
             await _userRepository.AddAsync(new User() { Name = username });
         }
- 
-        public async Task<IEnumerable<MeetingDto>> GetEarliestMeetings()
+
+        public async Task<MeetingDto> BookUsersForAMeeting(long[] participantIds, int duration, DateTime earliestStart, DateTime latestEnd)
         {
-            var meetings = await _meetingRepository.GetAllAsync();
+            var allUsers = await _userRepository.GetAllAsync();
+            var usersIds = allUsers.Select(x => x.Id).ToHashSet();
             
-            var earliestMeeting = meetings.FitByEarliestDateTime(TimeZoneInfo.Utc, DateTime.UtcNow);
+            bool allExists = participantIds.All(x => usersIds.Contains(x));
+            if (!allExists)
+                throw new ArgumentException("No participants found");
             
-            var mappedMeetings = earliestMeeting.Select(x => x.MeetingToMeetingDto());
-            return mappedMeetings;
+            earliestStart = earliestStart.Kind == DateTimeKind.Utc 
+                ? earliestStart 
+                : earliestStart.ToUniversalTime();
+
+            latestEnd = latestEnd.Kind == DateTimeKind.Utc 
+                ? latestEnd 
+                : latestEnd.ToUniversalTime();
+            
+            if(earliestStart.TimeOfDay < new TimeSpan(9, 0, 0) || latestEnd.TimeOfDay > new TimeSpan(17, 0, 0))
+                throw new ArgumentException("Time must be between 9am and 17pm");
+            
+            var meetings = await _meetingRepository.GetMeetingsWithUsers();
+            var validSlot = ScheduleMeetingTimeHelper.FindEarliestMeeting(meetings, duration,earliestStart, latestEnd);
+
+            if (validSlot != null)
+            {
+                foreach (var id in participantIds)
+                {
+                    if (validSlot.Users.Any(x => x.Id == id))
+                    {
+                        continue;
+                    }
+                    
+                    var user = await _userRepository.GetByIdAsync(id);
+                    validSlot.Users.Add(user);
+                    
+                    return validSlot.MeetingToMeetingDto();
+                }
+            }
+            
+            var freeTimeSlot = ScheduleMeetingTimeHelper.FindEarliestFreeSlot(meetings, duration, earliestStart, latestEnd);
+            if(freeTimeSlot == null)
+                throw new ArgumentException("There is no available slot");
+
+            var users = new List<User>();
+
+            foreach (var id in participantIds)
+                users.Add(await _userRepository.GetByIdAsync(id)); 
+
+            var meeting = new Meeting()
+            {
+                StartTime = freeTimeSlot.StartTime,
+                EndTime = freeTimeSlot.EndTime,
+                Users = users.ToList()
+            };
+            
+            await _meetingRepository.AddAsync(meeting);
+            return meeting.MeetingToMeetingDto();
         }
 
         public async Task<IEnumerable<MeetingDto>> GetUserMeetings(long userId)
         {
-            var meetings = await _meetingRepository.GetAllAsync();
+            var meetings = await _meetingRepository.GetMeetingsWithUsers();
             
             var usersMeetings = meetings.Where(x => x.Users.Any(y => y.Id == userId));
             
