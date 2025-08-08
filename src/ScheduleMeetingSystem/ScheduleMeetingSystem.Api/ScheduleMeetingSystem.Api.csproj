@@ -11,4 +11,10 @@
         <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.3" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\ScheduleMeetingSystem.Application\ScheduleMeetingSystem.Application.csproj" />
+      <ProjectReference Include="..\ScheduleMeetingSystem.Core\ScheduleMeetingSystem.Core.csproj" />
+      <ProjectReference Include="..\ScheduleMeetingSystem.Infrastructure\ScheduleMeetingSystem.Infrastructure.csproj" />
+    </ItemGroup>
+
 </Project>
