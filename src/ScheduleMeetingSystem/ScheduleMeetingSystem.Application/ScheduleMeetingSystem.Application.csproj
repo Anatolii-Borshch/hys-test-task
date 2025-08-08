@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\ScheduleMeetingSystem.Core\ScheduleMeetingSystem.Core.csproj" />
+    </ItemGroup>
+
 </Project>

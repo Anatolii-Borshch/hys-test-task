@@ -13,7 +13,7 @@ namespace ScheduleMeetingSystem.Infrastructure.DbContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
+            
             modelBuilder.Entity<User>()
                 .HasMany(x => x.Meetings)
                 .WithMany(x => x.Users)
