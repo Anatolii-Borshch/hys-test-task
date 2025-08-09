@@ -11,7 +11,7 @@ namespace ScheduleMeetingSystem.Application.Helpers
                 .Where(x =>
                 {
                     var duration = x.EndTime - x.StartTime;
-                    return duration.Minutes >= durationMinutes;
+                    return duration.TotalMinutes >= durationMinutes;
                 })
                 .OrderBy(x => x.StartTime);
             
@@ -20,12 +20,12 @@ namespace ScheduleMeetingSystem.Application.Helpers
         
         public static TimeSlot? FindEarliestFreeSlot(IEnumerable<Meeting> meetings, int durationMinutes, DateTime earliestStart, DateTime latestEnd)
         {
+            DateTime current = earliestStart.ToUniversalTime();
+            
             var busyIntervals = meetings
                 .Select(m => (Start: m.StartTime, End: m.EndTime))
                 .OrderBy(i => i.Start)
                 .ToList();
-
-            DateTime current = earliestStart;
 
             foreach (var interval in busyIntervals)
             {

@@ -2,31 +2,74 @@
 
 namespace ScheduleMeetingSystem.ApplicationTests.Data
 {
-
     public static class MeetingTimeTestData
     {
-        public static IEnumerable<object[]> GetEarliestMeetingTestCases()
+        public static IEnumerable<object[]> FindEarliestMeetingCases()
         {
-            yield return new object[] { "2025-08-08T09:00:00", "2025-08-08T15:00:00", 60, "2025-08-08T10:00:00" };
-            yield return new object[] { "2025-08-08T09:00:00", "2025-08-08T15:00:00", 90, null };
-            yield return new object[] { "2025-08-08T11:00:00", "2025-08-08T15:00:00", 30, "2025-08-08T12:00:00" };
-        }
+            var now = DateTime.UtcNow;
 
-        public static List<Meeting> GetTestMeetings()
+            yield return
+            [
+                new[]
+                {
+                    new Meeting { StartTime = now.AddHours(1), EndTime = now.AddHours(2) }
+                },
+                30, now, now.AddHours(5),
+                now.AddHours(1)
+            ];
+
+            yield return
+            [
+                new[]
+                {
+                    new Meeting { StartTime = now.AddHours(3), EndTime = now.AddHours(4) },
+                    new Meeting { StartTime = now.AddHours(1), EndTime = now.AddHours(2) }
+                },
+                30, now, now.AddHours(5),
+                now.AddHours(1)
+            ];
+
+            yield return
+            [
+                new[]
+                {
+                    new Meeting { StartTime = now.AddHours(1), EndTime = now.AddMinutes(70) }
+                },
+                120, now, now.AddHours(5),
+                (DateTime?)null
+            ];
+        }
+        
+        public static IEnumerable<object[]> FindEarliestFreeSlotCases()
         {
-            return new List<Meeting>
+            var now = DateTime.UtcNow;
+
+            yield return
+            [
+                Array.Empty<Meeting>(),
+                60, now, now.AddHours(4),
+                new TimeSlot(now, now.AddHours(1))
+            ];
+
+            yield return new object[]
             {
-                new Meeting()
+                new[]
                 {
-                    StartTime = DateTime.Parse("2025-08-08T10:00:00"), 
-                    EndTime = DateTime.Parse("2025-08-08T11:00:00")
+                    new Meeting { StartTime = now.AddHours(2), EndTime = now.AddHours(3) }
                 },
-                new Meeting()
-                {
-                    StartTime = DateTime.Parse("2025-08-08T12:00:00"), 
-                    EndTime = DateTime.Parse("2025-08-08T14:00:00")
-                },
+                60, now, now.AddHours(4),
+                new TimeSlot(now, now.AddHours(1))
             };
+            
+            yield return
+            [
+                new[]
+                {
+                    new Meeting { StartTime = now, EndTime = now.AddHours(2) }
+                },
+                180, now, now.AddHours(4),
+                null
+            ];
         }
     }
 }

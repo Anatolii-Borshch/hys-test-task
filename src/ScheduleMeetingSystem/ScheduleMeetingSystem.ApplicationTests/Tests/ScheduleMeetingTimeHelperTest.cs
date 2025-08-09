@@ -8,24 +8,36 @@ namespace ScheduleMeetingSystem.ApplicationTests.Tests;
 public class ScheduleMeetingTimeHelperTest
 {
     [Theory]
-    [MemberData(nameof(MeetingTimeTestData.GetEarliestMeetingTestCases), MemberType = typeof(ScheduleMeetingSystem.ApplicationTests.Data.MeetingTimeTestData))]
-    public void FindEarliestMeeting_Test(string earliestStartStr, string latestEndStr, int durationMinutes, string expectedStartStr)
+    [MemberData(nameof(MeetingTimeTestData.FindEarliestMeetingCases), MemberType = typeof(MeetingTimeTestData))]
+    public void FindEarliestMeeting_ReturnsExpectedTest(
+        IEnumerable<Meeting> meetings,
+        int durationMinutes,
+        DateTime earliestStart,
+        DateTime latestEnd,
+        DateTime? expectedStart)
     {
-        var meetings = MeetingTimeTestData.GetTestMeetings();
-
-        var earliestStart = DateTime.Parse(earliestStartStr);
-        var latestEnd = DateTime.Parse(latestEndStr);
-
         var result = ScheduleMeetingTimeHelper.FindEarliestMeeting(meetings, durationMinutes, earliestStart, latestEnd);
+        Assert.Equal(expectedStart, result?.StartTime);
+    }
 
-        if (expectedStartStr == null)
-        {
+    [Theory]
+    [MemberData(nameof(MeetingTimeTestData.FindEarliestFreeSlotCases), MemberType = typeof(MeetingTimeTestData))]
+    public void FindEarliestFreeSlot_ReturnsExpectedTest(
+        IEnumerable<Meeting> meetings,
+        int durationMinutes,
+        DateTime earliestStart,
+        DateTime latestEnd,
+        TimeSlot? expected)
+    {
+        var result = ScheduleMeetingTimeHelper.FindEarliestFreeSlot(meetings, durationMinutes, earliestStart, latestEnd);
+
+        if (expected == null)
             Assert.Null(result);
-        }
         else
         {
             Assert.NotNull(result);
-            Assert.Equal(DateTime.Parse(expectedStartStr), result!.StartTime);
+            Assert.Equal(expected.StartTime, result!.StartTime);
+            Assert.Equal(expected.EndTime, result.EndTime);
         }
     }
 }
