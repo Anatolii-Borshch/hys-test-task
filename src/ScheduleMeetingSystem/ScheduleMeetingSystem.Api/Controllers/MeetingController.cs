@@ -18,7 +18,8 @@ namespace ScheduleMeetingSystem.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> BookUsersForMeeting([FromBody] BookMeetingRequest request)
         {
-            var meeting = await _scheduleMeetingService.BookUsersForAMeeting(request.ParticipantIds, request.Duration, request.EarliestStart, request.LatestEnd);
+            var meeting = await _scheduleMeetingService.BookUsersForAMeeting(request.ParticipantIds, request.DurationMinutes
+                , request.EarliestStart, request.LatestEnd);
             
             return Ok(meeting);
         }
