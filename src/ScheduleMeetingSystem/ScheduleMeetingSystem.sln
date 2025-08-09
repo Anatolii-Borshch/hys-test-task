@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleMeetingSystem.Core", "ScheduleMeetingSystem.Core\ScheduleMeetingSystem.Core.csproj", "{47575133-6227-4D4E-8567-18FDA737B652}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleMeetingSystem.Application", "ScheduleMeetingSystem.Application\ScheduleMeetingSystem.Application.csproj", "{A8D9FEF1-BFE0-4EFB-B03B-B8FA6515B2FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleMeetingSystem.Infrastructure", "ScheduleMeetingSystem.Infrastructure\ScheduleMeetingSystem.Infrastructure.csproj", "{24B81EB6-07A5-4C4B-9031-582779241632}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleMeetingSystem.Api", "ScheduleMeetingSystem.Api\ScheduleMeetingSystem.Api.csproj", "{7CB38E32-68A0-4F7C-A87B-AF021736A63E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleMeetingSystem.ApplicationTests", "ScheduleMeetingSystem.ApplicationTests\ScheduleMeetingSystem.ApplicationTests.csproj", "{8204A948-BD15-4831-9A18-BBA72E1AD175}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{47575133-6227-4D4E-8567-18FDA737B652}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47575133-6227-4D4E-8567-18FDA737B652}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47575133-6227-4D4E-8567-18FDA737B652}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47575133-6227-4D4E-8567-18FDA737B652}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8D9FEF1-BFE0-4EFB-B03B-B8FA6515B2FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8D9FEF1-BFE0-4EFB-B03B-B8FA6515B2FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8D9FEF1-BFE0-4EFB-B03B-B8FA6515B2FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8D9FEF1-BFE0-4EFB-B03B-B8FA6515B2FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24B81EB6-07A5-4C4B-9031-582779241632}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24B81EB6-07A5-4C4B-9031-582779241632}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24B81EB6-07A5-4C4B-9031-582779241632}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24B81EB6-07A5-4C4B-9031-582779241632}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CB38E32-68A0-4F7C-A87B-AF021736A63E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CB38E32-68A0-4F7C-A87B-AF021736A63E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CB38E32-68A0-4F7C-A87B-AF021736A63E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CB38E32-68A0-4F7C-A87B-AF021736A63E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8204A948-BD15-4831-9A18-BBA72E1AD175}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8204A948-BD15-4831-9A18-BBA72E1AD175}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8204A948-BD15-4831-9A18-BBA72E1AD175}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8204A948-BD15-4831-9A18-BBA72E1AD175}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
